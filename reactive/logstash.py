@@ -15,7 +15,7 @@ def messaging():
 # this is declared in the JRE provider. 
 @when('java.ready')
 @when_not('logstash.installed')
-def fetch_and_install():
+def fetch_and_install(logstash):
     configure_sources(config('apt-url'), config('apt-key'))
     apt_update()
     apt_install('logstash', fatal=True)
