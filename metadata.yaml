@@ -11,3 +11,7 @@ provides:
     interface: java
     scope: container
 
+requires:
+  elasticsearch:
+    interface: elasticsearch
+  
