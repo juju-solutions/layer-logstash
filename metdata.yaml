@@ -1,0 +1,15 @@
+name: logstash
+description: Deploys Logstash 2.x
+summary: |
+  Logstash is a data pipeline that helps you process logs and other event data
+  from a variety of systems. With 200 plugins and counting, Logstash can
+  connect to a variety of sources and stream data at scale to a central
+  analytics system.
+subordinate: false
+provides:
+  logs:
+    interface: elasticsearch
+  tcp-input:
+    interface: logstash-tcp
+  udp-input:
+    interface: logstash-udp
