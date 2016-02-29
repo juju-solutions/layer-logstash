@@ -13,3 +13,6 @@ provides:
     interface: logstash-tcp
   udp-input:
     interface: logstash-udp
+requires:
+  elasticsearch:
+    interface: elasticsearch
