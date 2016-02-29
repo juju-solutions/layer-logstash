@@ -1,0 +1,9 @@
+options:
+  apt-url:
+    type: string
+    default: http://packages.elastic.co/logstash/2.2/debian stable main
+    description: APT repository to fetch logstash from
+  apt-key:
+    type: string
+    default: D88E42B4
+    description: repository key
