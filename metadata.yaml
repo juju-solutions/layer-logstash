@@ -7,12 +7,7 @@ summary: |
   analytics system.
 subordinate: false
 provides:
-  logs:
-    interface: elasticsearch
-  tcp-input:
-    interface: logstash-tcp
-  udp-input:
-    interface: logstash-udp
-requires:
-  elasticsearch:
-    interface: elasticsearch
+  java:
+    interface: java
+    scope: container
+
