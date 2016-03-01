@@ -3,16 +3,16 @@ from charms.reactive import when
 from charms.reactive import when_not
 from charmhelpers.core.hookenv import config
 from charmhelpers.core.hookenv import status_set
-from charmhelpers.core.templating.jinja2 import render
+from charmhelpers.core.templating import render
 from charmhelpers.fetch import configure_sources
 from charmhelpers.fetch import apt_install
 from charmhelpers.fetch import apt_update
 
 
-
 @when_not('java.ready')
 def messaging():
     status_set('blocked', 'Missing JRE')
+
 
 # this is declared in the JRE provider.
 @when('java.ready')
@@ -24,6 +24,7 @@ def fetch_and_install(java):
     set_state('logstash.installed')
     status_set('active', 'logstash installed')
 
+
 @when('logstash.installed', 'elasticsearch.available')
 @when_not('logstash.elasticsearch.configured')
 def configure_logstash(elasticsearch):
@@ -31,11 +32,11 @@ def configure_logstash(elasticsearch):
 
     # Set up the configration file for logstash.
     # Get cluster-name, host, port from the relationship object.
-    units = elasticsearch.list_units()
+    units = elasticsearch.list_unit_data()
     hosts = []
     for unit in units():
-        print(unit.host())
-        hosts.append('"{0}:{1}"'.format(unit.host(), unit.port()))
+        print(unit['host'])
+        hosts.append('"{0}:{1}"'.format(unit['host'], unit['port']))
     ', '.join(hosts)
     context = {'hosts': ', '.join(hosts)}
     source = 'output-elasticsearch.conf'
