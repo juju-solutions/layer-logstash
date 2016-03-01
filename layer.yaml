@@ -1,2 +1,1 @@
-includes: ["layer:basic", "interface:java"]
-
+includes: ["layer:basic", "interface:java", "interface:elasticsearch"]
