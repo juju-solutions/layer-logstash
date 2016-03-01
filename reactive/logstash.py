@@ -37,8 +37,6 @@ def trigger_logstash_service_recycle(elasticsearch):
 @when_not('logstash.elasticsearch.configured')
 def configure_logstash(elasticsearch):
     '''Configure logstash to push data to other sources.'''
-
-    # Set up the configration file for logstash.
     # Get cluster-name, host, port from the relationship object.
     units = elasticsearch.list_unit_data()
     hosts = []
@@ -50,10 +48,11 @@ def configure_logstash(elasticsearch):
     target = '/etc/logstash/conf.d/output-elasticsearch.conf'
     # Render the template
     render(source, target, context)
+    # Set up the configration file for logstash
     set_state('logstash.elasticsearch.configured')
 
 
-@when_file_changed('/etc/logstash/conf.d/output-elasticsearch.conf')
+@when_file_changed('/etc/logstash/conf.d/output-elasticsearch.conf', '/etc/logstash/conf.d/input.conf')  # noqa
 def recycle_logstash_service():
     host.service_restart('logstash')
 
