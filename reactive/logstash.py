@@ -3,6 +3,7 @@ from charms.reactive import remove_state
 from charms.reactive import when
 from charms.reactive import when_not
 from charms.reactive import when_file_changed
+from charmhelpers.core.hookenv import config
 from charmhelpers.core.hookenv import status_set
 from charmhelpers.core import host
 from charmhelpers.core.templating import render
@@ -55,3 +56,13 @@ def configure_logstash(elasticsearch):
 @when_file_changed('/etc/logstash/conf.d/output-elasticsearch.conf')
 def recycle_logstash_service():
     host.service_restart('logstash')
+
+
+@when('client.connected')
+def configure_logstash_input(client):
+    '''Configure the logstash input parameters.'''
+    # Send the port data to the clients.
+    client.provide_data(config('tcp_port'), config('udp_port'))
+    source = 'input.conf'
+    target = '/etc/logstash/conf.d/input.conf'
+    render(source, target, config())
