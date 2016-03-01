@@ -41,10 +41,9 @@ def configure_logstash(elasticsearch):
     # Get cluster-name, host, port from the relationship object.
     units = elasticsearch.list_unit_data()
     hosts = []
-    for unit in units():
+    for unit in units:
         print(unit['host'])
         hosts.append('"{0}:{1}"'.format(unit['host'], unit['port']))
-    ', '.join(hosts)
     context = {'hosts': ', '.join(hosts)}
     source = 'output-elasticsearch.conf'
     target = '/etc/logstash/conf.d/output-elasticsearch.conf'
@@ -55,4 +54,4 @@ def configure_logstash(elasticsearch):
 
 @when_file_changed('/etc/logstash/conf.d/output-elasticsearch.conf')
 def recycle_logstash_service():
-    host.restart_service('logstash')
+    host.service_restart('logstash')
