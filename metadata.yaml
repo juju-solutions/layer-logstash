@@ -10,9 +10,8 @@ provides:
   java:
     interface: java
     scope: container
-  logstash:
+  client:
     interface: logstash-client
-
 requires:
   elasticsearch:
     interface: elasticsearch
