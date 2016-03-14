@@ -1,0 +1,41 @@
+#!/usr/bin/python3
+
+import amulet
+import unittest
+
+
+# Don't forget to expose using d.expose(service)
+class TestDeployment(unittest.TestCase):
+    @classmethod
+    def setUpClass(cls):
+        cls.deployment = amulet.Deployment(series='trusty')
+        cls.deployment.add('logstash')
+        cls.deployment.add('openjdk', 'cs:~kwmonroe/trusty/openjdk')
+        cls.deployment.relate('openjdk:java', 'logstash:java')
+        cls.deployment.expose('logstash')
+        cls.deployment.add('elasticsearch', 'cs:trusty/elasticsearch')
+        cls.deployment.relate('elasticsearch:client', 'logstash:elasticsearch')
+        try:
+            cls.deployment.setup(timeout=900)
+            cls.deployment.sentry.wait()
+        except amulet.helpers.TimeoutError:
+            msg = "Environment wasn't stood up in time"
+            amulet.raise_status(amulet.SKIP, msg=msg)
+        except:
+            raise
+        finally:
+            cls.logstash = cls.deployment.sentry['logstash'][0]
+            cls.elasticsearch = cls.deployment.sentry['elasticsearch'][0]
+
+    def test_logstash_configtest(self):
+        out = self.logstash.run('service logstash configtest')
+        self.assertTrue("Configuration OK" in out)
+
+    def test_elasticsearch_output(self):
+        ip = self.elasticsearch.relation('client', 'logstash:elasticsearch')['private-address']  # noqa
+        logstash_config = self.logstash.file_contents('/etc/logstash/conf.d/output-elasticsearch.conf')  # noqa
+        self.assertTrue(ip in logstash_config)
+
+
+if __name__ == '__main__':
+    unittest.main()
