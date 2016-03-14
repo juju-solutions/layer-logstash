@@ -28,10 +28,18 @@ class TestDeployment(unittest.TestCase):
             cls.elasticsearch = cls.deployment.sentry['elasticsearch'][0]
 
     def test_logstash_configtest(self):
+        '''
+        Logstash ships with a service configuration test utility. We should use
+        this to ensure we haven't misconfigured our logstash instance
+        '''
         out = self.logstash.run('service logstash configtest')
         self.assertTrue("Configuration OK" in out)
 
     def test_elasticsearch_output(self):
+        '''
+        Logstash supports many outputs. Ensure we've configured logstash for
+        elasticsearch.
+        '''
         ip = self.elasticsearch.relation('client', 'logstash:elasticsearch')['private-address']  # noqa
         logstash_config = self.logstash.file_contents('/etc/logstash/conf.d/output-elasticsearch.conf')  # noqa
         self.assertTrue(ip in logstash_config)
