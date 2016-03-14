@@ -1,10 +1,17 @@
 name: logstash
-description: Deploys Logstash 2.x
-summary: |
+description: |
   Logstash is a data pipeline that helps you process logs and other event data
   from a variety of systems. With 200 plugins and counting, Logstash can
   connect to a variety of sources and stream data at scale to a central
   analytics system.
+maintainers:
+  - Matt Bruzek <matthew.bruzek@canonical.com>
+  - Chuck Butler <charles.butler@canonical.com>
+summary: |
+  Logstash helps you process logs and other event data.
+tags:
+  - logging
+  - data-processing
 subordinate: false
 provides:
   java:
