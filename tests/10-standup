@@ -9,14 +9,14 @@ class TestDeployment(unittest.TestCase):
     ''' Logstash does nothing useful without being related to other
     services. (as in, it wont even start without an input / output configured).
     This simply validates the charm deploys. For more comprehensive testing
-    see the logstash-core bundle. https://jujucharms.com/u/containers/logstash-core
+    see the elk-stack bundle. https://jujucharms.com/u/containers/elk-stack
     '''
 
     def test_deploy(self):
         self.deployment = amulet.Deployment(series='trusty')
         self.deployment.add('logstash')
-        self.deployment.add('openjdk', 'cs:~kwmonroe/trusty/openjdk')
-        self.deployment.relate('openjdk:java', 'logstash:java')
+        self.deployment.add('zulu8', 'cs:trusty/zulu8-2')
+        self.deployment.relate('zulu8:java', 'logstash:java')
         self.deployment.expose('logstash')
 
         try:
