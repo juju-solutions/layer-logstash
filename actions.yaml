@@ -1,0 +1,3 @@
+generate-noise:
+  description: |
+    simulates noise -  this is useful when testing logstash shipping with no relations
