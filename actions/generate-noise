@@ -1,6 +1,13 @@
 #!/bin/bash
 
-template_input = '''
+set -e
+
+
+noise=$(action-get noise)
+
+if [[ ! -f /etc/logstash/conf.d/input-charm-noise.conf ]]; then
+
+  template_input='''
   input {
     file {
         path => "/tmp/noisytest"
@@ -8,8 +15,8 @@ template_input = '''
     }
 }
 '''
+  echo $template_input > /etc/logstash/conf.d/input-charm-noise.conf
+  service logstash restart
+fi
 
-echo $template_input > /etc/logstash/conf.d/input-charm-noise.conf
-service logstash restart
-
-for i in {0..2000}; do echo "simulated noise $i times" >> /tmp/noisytest; done
+for i in $(seq 0 $noise); do echo "simulated noise $i times" >> /tmp/noisytest; done
