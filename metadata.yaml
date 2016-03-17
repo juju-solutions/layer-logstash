@@ -12,6 +12,8 @@ provides:
     scope: container
   client:
     interface: logstash-client
+  beat:
+    interface: elastic-beats
 requires:
   elasticsearch:
     interface: elasticsearch
