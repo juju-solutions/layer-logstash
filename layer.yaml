@@ -1,1 +1,6 @@
-includes: ["layer:basic", "interface:java", "interface:elasticsearch", "interface:logstash-client"]
+includes:
+  - "layer:basic"
+  - "interface:java"
+  - "interface:elasticsearch"
+  - "interface:logstash-client"
+  - "interface:elastic-beats"

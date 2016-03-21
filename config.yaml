@@ -10,8 +10,12 @@ options:
   udp_port:
     type: int
     default: 5000
-    description: The port used by logstash agents to emit logs over UDP.
+    description: The port used by legacy logstash agents to emit logs over UDP.
   tcp_port:
     type: int
     default: 6000
-    description: The port used by logstash agents to emit logs over TCP.
+    description: The port used by legacy logstash agents to emit logs over TCP.
+  beats_port:
+    type: int
+    default: 5044
+    description: Port used by beats. Beats are add on modules (search the charmstore for beat)
