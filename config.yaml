@@ -18,3 +18,4 @@ options:
   beats_port:
     type: int
     default: 5044
+    description: Port used by beats. Beats are add on modules (search the charmstore for beat)
