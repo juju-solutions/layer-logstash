@@ -1,2 +1,0 @@
-build:
-	charm build --force
