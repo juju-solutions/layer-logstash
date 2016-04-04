@@ -4,3 +4,4 @@ includes:
   - "interface:elasticsearch"
   - "interface:logstash-client"
   - "interface:elastic-beats"
+repo: https://github.com/juju-solutions/layer-logstash
