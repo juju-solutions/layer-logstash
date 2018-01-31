@@ -14,46 +14,46 @@ a compatible JRE along with the Logstash application. This allows the consumer t
 swap the version of java being used by configuring the system's java installation.
 
      juju deploy logstash
-     juju deploy zulu8
-     juju add-relation logstash zulu8
+     juju deploy openjdk
+     juju add-relation logstash openjdk
 
 
 ### This charm is bundled for your convenience.
 
 Typically Logstash is deployed along side its companion products
-Elasticsearch and Kibana. This suite of services is known as the
+Elasticsearch and Kibana. This suite of applications is known as the
 ELK stack, and is deployable today:
 
     juju deploy ~containers/bundle/elk-stack
 
 ### Testing the deployment
 
-The services provide extended status reporting to indicate when they are ready:
+The applications provide extended status reporting to indicate when they are
+ready:
 
-    juju status --format=tabular
+    juju status
 
 This is particularly useful when combined with watch to track the on-going
 progress of the deployment:
 
-    watch -n 0.5 juju status --format=tabular
+    watch juju status
 
 The message for each unit will provide information about that unit's state.
 Once they all indicate that they are ready, you can use the provided
 `generate-noise` action to test that the applications are working as expected:
 
-    juju action do logstash/0 generate-noise
-    watch juju action status
+    juju run-action logstash/0 generate-noise
+    watch juju show-action-status
 
 Once the action is complete, you can retrieve the results:
 
-    juju action fetch <action-id>
+    juju show-action-output <action-id>
 
-The &lt;action-id&gt; value will be in the juju action status output.
+The &lt;action-id&gt; value will be in the `juju show-action-status`.
 
 ## Contact information
 
-- Charles Butler &lt;charles.butler@canonical.com&gt;
-- Matt Bruzek &lt;matthew.bruzek@canonical.com&gt;
+- Elasticsearch Charmers &lt;elasticsearch-charmers@lists.launchpad.net&gt;
 
 # Need Help?
 
