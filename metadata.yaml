@@ -13,6 +13,9 @@ tags:
   - logging
   - data-processing
 subordinate: false
+series:
+  - trusty
+  - xenial
 provides:
   java:
     interface: java
