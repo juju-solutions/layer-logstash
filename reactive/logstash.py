@@ -42,16 +42,11 @@ def configure_logstash(elasticsearch):
     '''Configure logstash to push data to other sources.'''
     # Get cluster-name, host, port from the relationship object.
     cache = kv()
-    units = elasticsearch.list_unit_data()
-    if cache.get('logstash.elasticsearch'):
-        hosts = cache.get('logstash.elasticsearch')
-    else:
-        hosts = []
+    hosts = []
 
-    for unit in units:
+    for unit in elasticsearch.list_unit_data():
         host_string = "{0}:{1}".format(unit['host'], unit['port'])
-        if host_string not in hosts:
-            hosts.append(host_string)
+        hosts.append(host_string)
 
     cache.set('logstash.elasticsearch', hosts)
     set_state('logstash.render')
@@ -94,5 +89,5 @@ def render_without_context(source, target):
     cache = kv()
     esearch = cache.get('logstash.elasticsearch')
     if esearch:
-        context.update({'elasticsearch': ', '.join(esearch)})
+        context.update({'elasticsearch': ','.join('"' + item + '"' for item in esearch)})
     render(source, target, context)
